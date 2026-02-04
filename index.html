@@ -2,14 +2,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Prank</title>
+    <title>Do you love me?</title>
     <style>
-        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; background-color: #ffe6e6; overflow: hidden; margin: 0; }
-        h1 { color: #d63384; text-align: center; padding: 0 20px; }
-        .buttons { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; }
-        button { padding: 15px 30px; font-size: 20px; cursor: pointer; border-radius: 12px; border: none; position: absolute; }
-        #yesBtn { background-color: #28a745; color: white; transform: translateX(-70px); }
-        #noBtn { background-color: #dc3545; color: white; transform: translateX(70px); transition: 0.1s; z-index: 10; }
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ffe6e6; overflow: hidden; margin: 0; }
+        h1 { color: #d63384; text-align: center; z-index: 2; padding: 0 20px; }
+        .buttons { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        button { padding: 15px 30px; font-size: 20px; cursor: pointer; border-radius: 12px; border: none; position: absolute; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #yesBtn { background-color: #ff4d6d; color: white; transform: translateX(-70px); }
+        #noBtn { background-color: #6c757d; color: white; transform: translateX(70px); transition: 0.1s; z-index: 10; }
+        
+        /* Heart Animation */
+        .heart { position: fixed; font-size: 30px; color: #ff4d6d; user-select: none; animation: float 3s linear infinite; top: 100vh; z-index: 1; }
+        @keyframes float {
+            to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -22,7 +28,7 @@
 
     <script>
         function moveButton() {
-            // This makes the 'No' button jump to a random spot
+            // Makes the button jump around
             const x = Math.random() * (window.innerWidth - 120);
             const y = Math.random() * (window.innerHeight - 50);
             const noBtn = document.getElementById('noBtn');
@@ -32,9 +38,23 @@
         }
 
         function sayYes() {
-            // Changes the text when 'Yes' is clicked
+            // Update the text
             document.getElementById('question').innerHTML = "I knew it! ❤️ <br> tu mera kuttu nae hai";
             document.querySelector('.buttons').style.display = 'none';
+            
+            // Create floating hearts
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => { heart.remove(); }, 5000);
         }
     </script>
 </body>
